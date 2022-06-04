@@ -14,7 +14,6 @@ function App() {
   };
 
   const createTicket = async (_name) => {
-    debugger;
     let res = await contract.createTicket(_name);
     await res.wait();
     getTickets();
@@ -43,7 +42,7 @@ function App() {
       setAccount(accounts[0]);
       setContract(
         new ethers.Contract(
-          "0xf5059a5D33d5853360D16C683c16e67980206f36",
+          "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           Manager.abi,
           newSigner
         )
@@ -91,7 +90,7 @@ function App() {
             .map((ticket, index) => {
               return (
                 <div key={index} className="main_ticket_card">
-                  <p className="main_ticket_card_id">#{ticket.id}</p>
+                  <p className="main_ticket_card_id">#{ticket.id + 1}</p>
                   <p>{ticket.item.name}</p>
                   <div className="main_ticket_button_section">
                     <button
@@ -122,15 +121,77 @@ function App() {
         </div>
         <div className="main_col" style={{ backgroundColor: "lightBlue" }}>
           <div className="main_col_heading">Busy</div>
-          {tickets.map((item) => {
-            return <p>{item.name}</p>;
-          })}
+          {tickets
+            .map((t, i) => ({ id: i, item: t }))
+            .filter((t) => t.item.status === 1)
+            .map((ticket, index) => {
+              return (
+                <div key={index} className="main_ticket_card">
+                  <p className="main_ticket_card_id">#{ticket.id + 1}</p>
+                  <p>{ticket.item.name}</p>
+                  <div className="main_ticket_button_section">
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightBlue" }}
+                      onClick={() => updateTicketStatus(ticket.id, 0)}
+                    >
+                      To Do
+                    </button>
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightGreen" }}
+                      onClick={() => updateTicketStatus(ticket.id, 2)}
+                    >
+                      Done
+                    </button>
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightGrey" }}
+                      onClick={() => renameTicket(ticket.id)}
+                    >
+                      Rename
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
         </div>
         <div className="main_col" style={{ backgroundColor: "lightGreen" }}>
           <div className="main_col_heading">Done</div>
-          {tickets.map((item) => {
-            return <p>{item.name}</p>;
-          })}
+          {tickets
+            .map((t, i) => ({ id: i, item: t }))
+            .filter((t) => t.item.status === 2)
+            .map((ticket, index) => {
+              return (
+                <div key={index} className="main_ticket_card">
+                  <p className="main_ticket_card_id">#{ticket.id + 1}</p>
+                  <p>{ticket.item.name}</p>
+                  <div className="main_ticket_button_section">
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightBlue" }}
+                      onClick={() => updateTicketStatus(ticket.id, 0)}
+                    >
+                      To Do
+                    </button>
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightGreen" }}
+                      onClick={() => updateTicketStatus(ticket.id, 1)}
+                    >
+                      Busy
+                    </button>
+                    <button
+                      className="small_button"
+                      style={{ backgroundColor: "lightGrey" }}
+                      onClick={() => renameTicket(ticket.id)}
+                    >
+                      Rename
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
