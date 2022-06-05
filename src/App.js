@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Manager from "./artifacts/contracts/Manager.sol/Manager.json";
+import "./App.css";
 
 function App() {
   const [name, setName] = useState("");
@@ -132,7 +133,7 @@ function App() {
                   <div className="main_ticket_button_section">
                     <button
                       className="small_button"
-                      style={{ backgroundColor: "lightBlue" }}
+                      style={{ backgroundColor: "lightPink" }}
                       onClick={() => updateTicketStatus(ticket.id, 0)}
                     >
                       To Do
@@ -169,14 +170,14 @@ function App() {
                   <div className="main_ticket_button_section">
                     <button
                       className="small_button"
-                      style={{ backgroundColor: "lightBlue" }}
+                      style={{ backgroundColor: "lightPink" }}
                       onClick={() => updateTicketStatus(ticket.id, 0)}
                     >
                       To Do
                     </button>
                     <button
                       className="small_button"
-                      style={{ backgroundColor: "lightGreen" }}
+                      style={{ backgroundColor: "lightBlue" }}
                       onClick={() => updateTicketStatus(ticket.id, 1)}
                     >
                       Busy
